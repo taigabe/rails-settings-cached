@@ -2,7 +2,7 @@ module RailsSettings
   module RequestCacheGetter
     extend ActiveSupport::Concern
 
-    class_methods do
+    module ClassMethods
       def enable!
         Thread.current[:rails_settings_request_cache_enable] = true
       end

@@ -22,8 +22,10 @@ module RailsSettings
     end
 
     # set the value field, YAML encoded
+    # Check if new_value is already in YAML format due an extra call to this method by
+    # ActiveRecord::Base#strip_ascii_control_characters_from_strippable_attributes
     def value=(new_value)
-      self[:value] = new_value.to_yaml
+      self[:value] = new_value.to_s.start_with?('---') ? new_value : new_value.to_yaml
     end
 
     def clear_cache
@@ -123,7 +125,7 @@ module RailsSettings
       end
 
       def rails_initialized?
-        Rails.application&.initialized?
+        Rails.application.try(:initialized?)
       end
 
       def _all_settings

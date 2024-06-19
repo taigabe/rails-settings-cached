@@ -312,7 +312,7 @@ class BaseTest < ActiveSupport::TestCase
     assert_equal 2.9.to_d, Setting.smtp_settings["big_decimal"]
     assert_record_value :smtp_settings, new_value
 
-    Setting.find_by(var: :smtp_settings).update(value: new_value.to_json)
+    Setting.where(var: :smtp_settings).first.update(value: new_value.to_json)
     assert_equal({"sym" => "symbol", "str" => "string", "num" => 27.72, "float" => 9.to_f, "big_decimal" => "2.9"}, Setting.smtp_settings)
     assert_equal "symbol", Setting.smtp_settings[:sym]
     assert_equal "symbol", Setting.smtp_settings["sym"]
